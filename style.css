@@ -1,0 +1,57 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #F0F3F4;
+}
+
+.container {
+  width: 500px;
+  margin: auto;
+}
+
+
+.title-section {
+  text-align: center;
+}
+
+.board-section  {
+  width: 400px;
+  height: 500px;
+  background-color: yellow;
+  margin: 0 auto;
+  margin-top: 3px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell {
+  border: 2px solid black;
+  width: 60px;
+  height: 60px;
+  margin: 2.5px;
+
+  color: black;
+  font-size: 32px;
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.green-letter {
+  background-color: #7AB274;
+  border-color: white;
+}
+
+.grey-letter {
+  background-color: #787C7E;
+  border-color: white;
+
+}
+
+.yellow-letter {
+  background-color: #C9B458;
+  border-color: white;
+}
+
+
