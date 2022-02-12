@@ -97,6 +97,14 @@ function startGame() {
 };
 
 function checkRow() {
-  // count of the correct word
-  console.log(frequencies)
+
+  for (let i = 0; i < width; i++) {
+      const currentCell = document.getElementById(i.toString() + '-' + yCurrent.toString());
+      const letter = currentCell.innerText;
+    // checking for green letters
+    if (correctWord[i] === letter) {
+      currentCell.classList.add('green-letter');
+    }
+
+  }
 };
