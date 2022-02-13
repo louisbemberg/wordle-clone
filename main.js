@@ -58,7 +58,7 @@ const checkRow = (correctWord) => {
 
   // first we scan for greens only
   for (let i = 0; i < width; i++) {
-    const currentCell = document.getElementById(`${i.toString()} - ${yCurrent.toString()}`);
+    const currentCell = document.getElementById(`${i.toString()}-${yCurrent.toString()}`);
     const letter = currentCell.innerText;
 
     if (correctWord[i] === letter) {
@@ -75,7 +75,7 @@ const checkRow = (correctWord) => {
   }
 
   for (let i = 0; i < width; i++) {
-    const currentCell = document.getElementById(`${i.toString()} - ${yCurrent.toString()}`);
+    const currentCell = document.getElementById(`${i.toString()}-${yCurrent.toString()}`);
     const letter = currentCell.innerText;
 
     // skip the green letters this time, only worry about yellow&grey
