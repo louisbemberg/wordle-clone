@@ -13,32 +13,30 @@ let yCurrent = 0;
 const width = 5;
 const height = 6;
 
+// game state
 let gameOver = false;
 
-// Answer of the Puzzle
-const correctWord = 'BEANS';
+let allWords = [];
 
-// dictionary to count letter occurences, for words like AARRG
-const frequencies = {};
+async function fetchWords() {
+  const wordsURL = 'https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt'
 
-for (let j = 0; j < correctWord.length; j++) {
-  const letter = correctWord[j];
+  const response = await fetch(wordsURL);
 
-  if (frequencies[letter]) {
-    frequencies[letter] += 1;
-  } else {
-    frequencies[letter] = 1;
-  }
+  return response.text()
 }
 
-
 // Logic to start the game when people reload the page
-window.onload = function() {
-  startGame();
+window.onload = async function() {
+  allWords = await fetchWords()
+  allWords = allWords.split("\n")
+  correctWord = allWords[Math.floor(Math.random()*allWords.length)].toUpperCase();
+  console.log('The Word is', correctWord)
+  createBoard();
+  newGame();
 };
 
-function startGame() {
-
+function createBoard() {
   // populate board with empty cells
   for (let row = 0; row < height; row++) {
     for (let column = 0; column < width; column++) {
@@ -52,13 +50,14 @@ function startGame() {
       document.querySelector('.board-section').appendChild(cell);
     }
   }
+};
 
-
+function newGame() {
   // Listener of Key Presses
   document.addEventListener("keyup", (e) => {
     if (gameOver) {
-      return;
       console.log('Game Over!')
+      return;
     }
 
     // Only accepting Letter Inputs from A-Z
@@ -67,11 +66,9 @@ function startGame() {
       const currentCell = document.getElementById(`${xCurrent.toString()}-${yCurrent.toString()}`);
       currentCell.innerText = e.code[3];
       xCurrent += 1;
-      // console.log('you Type a', e.code[3])
     }
     // Only accept enter if full word
     if (e.code === 'Enter' && xCurrent === width ) {
-      console.log(xCurrent, width)
       // call function that checks the letters in the row
       checkRow();
       // go to beginning of next row
@@ -97,14 +94,52 @@ function startGame() {
 };
 
 function checkRow() {
+  greenLetters = 0
+  // dictionary to count letter occurences, for words like AARRG
+  const frequencies = {};
+
+  console.log(correctWord)
+  for (let j = 0; j < correctWord.length; j++) {
+    const letter = correctWord[j];
+
+    if (frequencies[letter]) {
+      frequencies[letter] += 1;
+    } else {
+      frequencies[letter] = 1;
+    }
+  };
+
+  // first we scan for greens only
+  for (let i = 0; i < width; i++) {
+    const currentCell = document.getElementById(i.toString() + '-' + yCurrent.toString());
+    const letter = currentCell.innerText;
+
+    if (correctWord[i] === letter) {
+      currentCell.classList.add('green-letter');
+      greenLetters += 1;
+      frequencies[letter] -= 1;
+    }
+
+    // win depends on greens only so we can check here
+    if (greenLetters === width) {
+      gameOver = true;
+      return
+    }
+
+  };
 
   for (let i = 0; i < width; i++) {
       const currentCell = document.getElementById(i.toString() + '-' + yCurrent.toString());
       const letter = currentCell.innerText;
-    // checking for green letters
-    if (correctWord[i] === letter) {
-      currentCell.classList.add('green-letter');
-    }
 
+    // skip the green letters this time, only worry about yellow&grey
+    if (correctWord[i] != letter) {
+      if (correctWord.includes(letter) && frequencies[letter] > 0) {
+        currentCell.classList.add('yellow-letter');
+        frequencies[letter] -= 1;
+      } else {
+        currentCell.classList.add('grey-letter');
+      }
+    }
   }
 };

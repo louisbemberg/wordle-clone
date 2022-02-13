@@ -54,4 +54,20 @@ body {
   border-color: white;
 }
 
+.btn-replay {
+  display: flex;
+  background-color: #7AB274;
+  padding: 12px 8px;
+  border-radius: 6px;
+  width: 80px;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.btn-replay:hover {
+  color: white;
+  font-weight: bolder;
+}
+
 
