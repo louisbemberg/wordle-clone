@@ -14,9 +14,8 @@ body {
 }
 
 .board-section  {
-  width: 400px;
+  width: 350px;
   height: 500px;
-  background-color: white;
   margin: 0 auto;
   margin-top: 3px;
   display: flex;

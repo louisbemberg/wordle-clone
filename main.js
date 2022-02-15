@@ -107,16 +107,28 @@ const newGame = (correctWord) => {
     }
     // Only accept enter if full word
     if (e.code === 'Enter' && xCurrent === width) {
-      // call function that checks the letters in the row
-      checkRow(correctWord);
-      // go to beginning of next row
-      yCurrent += 1;
-      xCurrent = 0;
-      console.log('Current position:', xCurrent, yCurrent);
+      // checking if the entered word is an english word
+      chosenWord = ''
+      for (let x = 0; x < width; x++) {
+        const wordLetter = document.getElementById(`${x}-${yCurrent.toString()}`);
+        chosenWord += wordLetter.innerText;
+      }
+      if (allWords.includes(chosenWord.toLowerCase())) {
+        // call function that checks the letters in the row
+        checkRow(correctWord);
+        // go to beginning of next row
+        yCurrent += 1;
+        xCurrent = 0;
+      } else {
+        window.alert('Word not found in dictionary!')
+      }
+
     }
 
     // Delete function
     if (e.code === 'Backspace') {
+      // only go back if on word index 1-4
+      // recall that the pointer is 1 right of where you currently see a letter
       if (xCurrent > 0) {
         xCurrent -= 1;
       }
